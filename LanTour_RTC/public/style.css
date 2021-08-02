@@ -1,0 +1,175 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,body {
+  height: 100%;
+}
+#video-grid {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+video {
+  display: block;
+  flex: 1;
+  object-fit: cover;
+  max-width: 70%;
+  position: relative;
+}
+.main {
+  height: 100%;
+  display: flex;
+}
+.main__left {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+}
+.main__right {
+  flex: 0.2;
+  display: flex;
+  flex-direction: column;
+  background-color: #a8c9f7;
+  border-left: 1px solid #ffffff;
+}
+.main__videos {
+  flex-grow: 1;
+  background-color: #a8c9f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main__controls {
+  display: flex;
+  background-color: #a8c9f7;
+  color: #000000;
+  padding: 5px;
+  justify-content: space-between;
+  border-top: 1px solid #ffffff;
+}
+.main__controls_block {
+  display: flex;
+}
+.main__controls_button {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  margin: 5px;
+}
+.main__controls_button span {
+  margin-top: 10px;
+  display: block;
+}
+.main__controls_button:hover {
+  background-color: #3da2dd;
+}
+.main__controls_button i {
+  font-size: 25px;
+}
+.leaveMeeting {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+.main__header {
+  color: #030000;
+  text-align: center;
+  padding: 20px;
+  border-bottom: 2px solid #ffffff;
+}
+.main__chat__window {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 20px 20px 0 20px;
+}
+.main__message_container {
+  padding: 22px 11px;
+  display: flex;
+}
+.main__message_container input {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  user-select: none;
+  outline: none;
+}
+
+#all_messages li {
+  color: rgb(2, 2, 2);
+  list-style: none;
+  border-bottom: 1px solid #FFC478;
+  padding: 10px 0;
+}
+.unmute {
+  color: red;
+}
+#fullChat{
+  background-color: white;
+  position: absolute;
+  bottom: 200px;
+  right: 100px;
+  opacity: 0.6;
+}
+
+#fullChatSendButton{
+  background-color: white;
+  position: absolute;
+  bottom: 30px;
+  right: 100px;
+  opacity: 0;
+
+}
+#fullChatSendButton:hover{
+  opacity: 0.6;
+}
+
+#fullChatSendButton:focus{
+  opacity: 0.6;
+}
+
+.connect {
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+}
+
+.disconnect {
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+}
+
+.me {
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  word-break: break-all;
+  border-radius: 6px;
+  margin-left: 30%;
+}
+
+.other {
+  background: #fac86a;
+  color: #FFF;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  word-break: break-all;
+  border-radius: 6px;
+  width: 70%;
+}

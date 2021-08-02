@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="review">
+
+	<select id="select_hotel" parameterType="int"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO, REVIEW_DATE, REVIEW_TITLE, REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		HOTEL_NO = #{hotel_no}
+		ORDER BY HOTEL_NO DESC
+	</select>
+		
+
+	<select id="select_lantour" parameterType="int"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		LANTOUR_NO = #{lantour_no}
+	</select>
+	
+	<select id="search_hotel_desc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO, REVIEW_DATE, REVIEW_TITLE, REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		HOTEL_NO = #{hotel_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_SCORE DESC
+	</select>
+	
+	<select id="select_score_hotel" parameterType="int"
+		resultType="ReviewDto">
+	
+		SELECT AVG(REVIEW_SCORE) AS REVIEW_SCORE, COUNT(*) AS REVIEW_NO, HOTEL_NO
+		FROM REVIEW GROUP BY HOTEL_NO
+		HAVING HOTEL_NO = #{hotel_no}
+	</select>
+	
+	<select id="select_score_lantour" parameterType="int"
+		resultType="ReviewDto">
+
+		SELECT AVG(REVIEW_SCORE) AS REVIEW_SCORE, COUNT(*) AS REVIEW_NO, LANTOUR_NO
+		FROM REVIEW GROUP BY LANTOUR_NO
+		HAVING LANTOUR_NO = #{lantour_no}
+	</select>
+	
+	
+	<select id="search_hotel_asc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO, REVIEW_DATE, REVIEW_TITLE, REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		HOTEL_NO = #{hotel_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_SCORE ASC
+	</select>
+
+	<select id="search_lantour_asc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		LANTOUR_NO = #{lantour_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_SCORE ASC
+	</select>
+	
+	<select id="search_lantour_desc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		LANTOUR_NO = #{lantour_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_SCORE DESC
+	</select>
+	
+	
+	
+	<select id="search_hotel_date_desc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO, REVIEW_DATE, REVIEW_TITLE, REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		HOTEL_NO = #{hotel_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_NO DESC
+	</select>
+	
+	<select id="search_hotel_date_asc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO, REVIEW_DATE, REVIEW_TITLE, REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		HOTEL_NO = #{hotel_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_NO ASC
+	</select>
+
+	<select id="search_lantour_date_asc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW	WHERE LANTOUR_NO = #{lantour_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_NO ASC
+	</select>
+	
+	<select id="search_lantour_date_desc" parameterType="hashMap"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		LANTOUR_NO = #{lantour_no}
+		AND (REVIEW_SCORE = #{zero} OR REVIEW_SCORE = #{one} OR REVIEW_SCORE = #{two} OR REVIEW_SCORE = #{three} OR
+		REVIEW_SCORE = #{four} OR REVIEW_SCORE = #{five})
+		ORDER BY REVIEW_NO DESC
+	</select>
+	
+	<select id="select_hotel_score_avg"	resultType="ReviewDto">
+		SELECT AVG(REVIEW_SCORE) AS REVIEW_SCORE, HOTEL_NO, COUNT(*) AS REVIEW_NO
+		FROM REVIEW GROUP BY HOTEL_NO
+		HAVING HOTEL_NO>0
+		ORDER BY HOTEL_NO DESC
+	</select>
+
+	<select id="select_lantour_score_avg" resultType="ReviewDto">
+		SELECT AVG(REVIEW_SCORE) AS REVIEW_SCORE, LANTOUR_NO, COUNT(*) AS REVIEW_NO
+		FROM REVIEW GROUP BY LANTOUR_NO
+		HAVING LANTOUR_NO>0
+		ORDER BY LANTOUR_NO DESC
+	</select>
+
+	<select id="select_one_hotel" parameterType="int"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , HOTEL_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		REVIEW_NO = #{review_no}
+	</select>
+	<select id="select_one_lantour" parameterType="int"
+		resultType="ReviewDto">
+		SELECT REVIEW_NO , LANTOUR_NO,
+		MEMBER_NO,REVIEW_DATE,REVIEW_TITLE,REVIEW_SCORE
+		FROM REVIEW
+		WHERE
+		REVIEW_NO = #{review_no}
+	</select>
+
+	<insert id="insert_hotel" parameterType="ReviewDto">
+		INSERT INTO REVIEW
+		VALUES
+		(REVIEW_NO_SEQ.NEXTVAL, #{hotel_no}, NULL, #{member_no}, SYSDATE, #{review_title}, #{review_score})
+	</insert>
+
+	<insert id="insert_lantour" parameterType="ReviewDto">
+		INSERT INTO REVIEW
+		VALUES
+		(REVIEW_NO_SEQ.NEXTVAL,NULL,#{lantour_no},#{member_no},SYSDATE,#{review_title},#{review_score})
+	</insert>
+	
+	<update id="update_review" parameterType="ReviewDto">
+		UPDATE REVIEW SET REVIEW_TITLE=#{review_title}, REVIEW_SCORE=#{review_score} WHERE REVIEW_NO = #{review_no} 
+	</update>
+	
+	<delete id="delete_review" parameterType="int">
+		DELETE FROM REVIEW WHERE REVIEW_NO = #{review_no}
+	</delete>
+	
+	<delete id="deleteMyReview" parameterType="int">
+		DELETE FROM REVIEW WHERE MEMBER_NO = #{member_no}
+	</delete>
+	
+	<delete id="deleteHotelReview" parameterType="int">
+		DELETE FROM REVIEW WHERE HOTEL_NO = #{hotel_no}
+	</delete>
+	
+	<delete id="deleteLantourReview" parameterType="int">
+		DELETE FROM REVIEW WHERE LANTOUR_NO = #{lantour_no}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reservation">
+
+	<select id="selectList" resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE
+		, RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM
+		RESERVATION
+		ORDER BY RESERVATION_NO
+	</select>
+
+	<select id="selectOne" parameterType="ReservationDto"
+		resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE,RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE LANTOUR_NO =
+		#{lantour_no}
+		AND MEMBER_NO = #{member_no}
+	</select>
+
+	<select id="selectOne_Res" parameterType="int"
+		resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE,RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM
+		RESERVATION
+		WHERE RESERVATION_NO =#{reservation_no}
+	</select>
+
+	<select id="selectList_lantour" resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE,RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE LANTOUR_NO =
+		#{lantour_no} AND RESERVATION_PAY != 'cancelled'
+		ORDER BY
+		RESERVATION_NO
+	</select>
+
+	<select id="selectList_hotel" parameterType="int"
+		resultType="ReservationDto">
+		SELECT ROOM_NO
+		FROM RESERVATION
+		WHERE HOTEL_NO = #{hotel_no}
+		AND RESERVATION_PAY != 'cancelled'
+		GROUP BY ROOM_NO
+	</select>
+
+	<select id="selectList_room" parameterType="hashMap" resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE,RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE ROOM_NO =
+		#{room_no} AND HOTEL_NO = #{hotel_no} AND RESERVATION_PAY !='cancelled'
+		ORDER BY RESERVATION_NO
+	</select>
+
+	<insert id="insert_lantour">
+		INSERT INTO RESERVATION
+		VALUES(RESERVATION_NO_SEQ.NEXTVAL,#{lantour_no},NULL,NULL,#{member_no},#{reservation_date},
+		NULL,
+		#{reservation_price},'N',SYSDATE)
+	</insert>
+
+	<insert id="insert_room">
+		INSERT INTO RESERVATION
+		VALUES(RESERVATION_NO_SEQ.NEXTVAL,NULL,#{room_no},#{hotel_no},#{member_no},#{reservation_date},
+		#{reservation_checkout_date},
+		#{reservation_price},'N',SYSDATE)
+	</insert>
+
+	<select id="countDate" parameterType="ReservationDto"
+		resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO
+		FROM RESERVATION
+		WHERE LANTOUR_NO =
+		#{lantour_no} AND RESERVATION_DATE = #{reservation_date} AND
+		RESERVATION_PAY != 'cancelled'
+	</select>
+
+	<select id="selectlist_MemberNo" parameterType="int"
+		resultType="ReservationDto">
+		SELECT
+		RESERVATION_NO,LANTOUR_NO,ROOM_NO,HOTEL_NO,MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE,RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE MEMBER_NO =
+		#{member_no}
+		ORDER BY RESERVATION_NO DESC
+	</select>
+	<update id="update_pay" parameterType="ReservationDto">
+		UPDATE RESERVATION SET
+		RESERVATION_PAY=#{reservation_pay}, RESERVATION_PAYDATE = SYSDATE
+		WHERE RESERVATION_NO = #{reservation_no}
+	</update>
+
+	<select id="selectList_M_lan" resultType="ReservationDto"
+		parameterType="int">
+		SELECT
+		RESERVATION_NO, LANTOUR_NO, ROOM_NO, HOTEL_NO,
+		MEMBER_NO, RESERVATION_DATE, RESERVATION_CHECKOUT_DATE,
+		RESERVATION_PRICE,
+		RESERVATION_PAY, RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE MEMBER_NO = #{member_no} AND LANTOUR_NO IS NOT NULL AND
+		RESERVATION_PAY != 'cancelled'
+	</select>
+
+	<select id="selectList_M_room" resultType="ReservationDto"
+		parameterType="int">
+		SELECT
+		RESERVATION_NO, LANTOUR_NO, ROOM_NO, HOTEL_NO,
+		MEMBER_NO, RESERVATION_DATE, RESERVATION_CHECKOUT_DATE,
+		RESERVATION_PRICE,
+		RESERVATION_PAY, RESERVATION_PAYDATE
+		FROM RESERVATION
+		WHERE MEMBER_NO = #{member_no} AND HOTEL_NO IS NOT NULL AND
+		RESERVATION_PAY != 'cancelled'
+	</select>
+
+	<select id="searchHoteldate" resultType="ReservationDto"
+		parameterType="HashMap">
+		SELECT R.HOTEL_NO FROM RESERVATION R, HOTEL H
+		WHERE
+		TO_DATE(R.RESERVATION_DATE, 'YYYY-MM-DD')>=TO_DATE(#{check_in},'YYYY-MM-DD')
+		AND TO_DATE(R.RESERVATION_DATE,'YYYY-MM-DD') <![CDATA[ < ]]> TO_DATE(#{check_out},'YYYY-MM-DD')
+		AND R.HOTEL_NO IS NOT NULL
+		AND R.HOTEL_NO = H.HOTEL_NO
+		AND H.HOTEL_TYPE = #{hotel_type}
+		GROUP BY R.HOTEL_NO
+		ORDER BY R.HOTEL_NO DESC
+	</select>
+
+	<select id="searchRoomdate" resultType="ReservationDto"
+		parameterType="HashMap">
+		SELECT R.ROOM_NO  FROM RESERVATION R, HOTEL H
+		WHERE
+		TO_DATE(R.RESERVATION_DATE, 'YYYY-MM-DD')>=TO_DATE(#{check_in},'YYYY-MM-DD')
+		AND TO_DATE(R.RESERVATION_DATE,'YYYY-MM-DD') <![CDATA[ < ]]> TO_DATE(#{check_out},'YYYY-MM-DD')
+		AND R.HOTEL_NO IS NOT NULL
+		AND R.HOTEL_NO = H.HOTEL_NO
+		AND R.HOTEL_NO = TO_NUMBER(#{hotel_no})
+		GROUP BY R.ROOM_NO
+	</select>
+
+	<select id="reservationchart" resultType="ReservationDto">
+		SELECT COUNT(*) AS count,  TO_CHAR(RESERVATION_PAYDATE,'YYYY-MM-DD') AS pay_date
+		FROM RESERVATION
+		GROUP BY TO_CHAR(reservation_paydate,'YYYY-MM-DD') 
+		ORDER BY TO_CHAR(reservation_paydate,'YYYY-MM-DD')
+	</select>
+
+	<select id="selectListJoin" resultType="ReservationDto" parameterType="HashMap">
+		SELECT
+		RESERVATION_NO, R.LANTOUR_NO, R.ROOM_NO, R.HOTEL_NO, R.MEMBER_NO,RESERVATION_DATE,RESERVATION_CHECKOUT_DATE , RESERVATION_PRICE,
+		RESERVATION_PAY,RESERVATION_PAYDATE, L.LANTOUR_TITLE, H.HOTEL_TITLE, RO.ROOM_NAME
+		FROM RESERVATION R, HOTEL H, ROOM RO, LANTOUR L 
+		WHERE (R.HOTEL_NO = H.HOTEL_NO(+) AND R.ROOM_NO = RO.ROOM_NO(+) AND R.LANTOUR_NO = L.LANTOUR_NO(+))
+		AND R.MEMBER_NO = #{member_no}
+		ORDER BY RESERVATION_NO DESC
+	</select>
+	<select id="selectcount_room" resultType="ReservationDto" parameterType="int">
+		SELECT COUNT(R.RESERVATION_NO) AS RESERVATION_NO, COUNT(R2.RESERVATION_NO) AS LANTOUR_NO, COUNT(R3.RESERVATION_NO) AS HOTEL_NO
+		FROM RESERVATION R, (SELECT * FROM RESERVATION WHERE RESERVATION_PAY = 'N') R2, (SELECT * FROM RESERVATION WHERE RESERVATION_PAY = 'cancelled' ) R3
+		WHERE (R.RESERVATION_NO = R2.RESERVATION_no(+) AND R.RESERVATION_NO = R3.RESERVATION_NO(+))
+		AND R.ROOM_NO = #{room_no}
+	</select>
+	
+	<select id="selectcount_lantour" resultType="ReservationDto" parameterType="int">
+		SELECT COUNT(R.RESERVATION_NO) AS RESERVATION_NO, COUNT(R2.RESERVATION_NO) AS LANTOUR_NO, COUNT(R3.RESERVATION_NO) AS HOTEL_NO
+		FROM RESERVATION R, (SELECT * FROM RESERVATION WHERE RESERVATION_PAY = 'N') R2, (SELECT * FROM RESERVATION WHERE RESERVATION_PAY = 'cancelled' ) R3
+		WHERE (R.RESERVATION_NO = R2.RESERVATION_no(+) AND R.RESERVATION_NO = R3.RESERVATION_NO(+))
+		AND R.LANTOUR_NO = #{lantour_no}
+	</select>
+	<delete id="deleteByMemberNo">
+	DELETE FROM RESERVATION WHERE MEMBER_NO = #{member_no}
+	</delete>
+
+</mapper>

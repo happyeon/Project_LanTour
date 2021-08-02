@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="room">
+	<select id="roomselectlist" parameterType="int"
+		resultType="roomDto">
+		SELECT
+		ROOM_NO,HOTEL_NO,ROOM_CONTENT,ROOM_PRICE,ROOM_CONVINENCE,ROOM_MAXCOUNT,
+		ROOM_IMAGE,ROOM_NAME
+		FROM ROOM
+		WHERE HOTEL_NO = #{hotel_no}
+	</select>
+
+	<select id="roomselectOne" parameterType="int"
+		resultType="roomDto">
+		SELECT
+		r.ROOM_NO,r.HOTEL_NO,r.ROOM_CONTENT,r.ROOM_PRICE,r.ROOM_CONVINENCE,r.ROOM_MAXCOUNT,
+		r.ROOM_IMAGE,r.ROOM_NAME,h.MEMBER_NO
+		FROM ROOM r,HOTEL h
+		WHERE ROOM_NO = #{room_no}
+		AND r.HOTEL_NO = h.HOTEL_NO
+	</select>
+
+	<insert id="roominsert" parameterType="roomDto">
+		INSERT INTO ROOM
+		VALUES(ROOM_NO_SEQ.NEXTVAL,#{hotel_no},#{room_content},#{room_price},#{room_convinence}
+		,#{room_maxcount},#{room_image},#{room_name})
+	</insert>
+
+	<delete id="roomdelete" parameterType="int">
+		DELETE FROM ROOM
+		WHERE
+		ROOM_NO = #{room_no}
+	</delete>
+	<delete id="roomdeleteAll" parameterType="int">
+			DELETE FROM ROOM WHERE HOTEL_NO = #{hotel_no}
+	</delete>
+
+</mapper>

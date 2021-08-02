@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+
+	<select id="selectList" resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID,
+		MEMBER_NAME, MEMBER_PASSWORD, MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER,
+		MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		ORDER BY
+		MEMBER_NO DESC
+	</select>
+
+	<select id="emailcheck" parameterType="String"
+		resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD,
+		MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		WHERE MEMBER_EMAIL = #{member_email}
+	</select>
+
+
+	<select id="selectOne" parameterType="int"
+		resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD,
+		MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		WHERE MEMBER_NO = #{member_no}
+	</select>
+
+	<select id="idCheck" parameterType="memberDto"
+		resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD,
+		MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+
+	<insert id="insert" parameterType="memberDto">
+		INSERT INTO MEMBER
+		VALUES(MEMBER_NO_SEQ.NEXTVAL,#{member_id},#{member_password},#{member_name},#{member_grade},#{member_age},#{member_gender},#{member_email},#{member_phone},'N', SYSDATE)
+	</insert>
+
+	<update id="update" parameterType="memberDto">
+		UPDATE MEMBER
+		SET MEMBER_NAME =
+		#{member_name}, 
+		MEMBER_EMAIL = #{member_email}, 
+		MEMBER_PHONE = #{member_phone}
+		WHERE MEMBER_NO = #{member_no}
+	</update>
+
+	<update id="delete" parameterType="int">
+		UPDATE MEMBER
+		SET
+		MEMBER_SECESSION = 'Y' WHERE MEMBER_NO = #{member_no}
+	</update>
+
+	<select id="memberList" resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID,
+		MEMBER_NAME, MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_GRADE
+		FROM MEMBER
+		ORDER BY MEMBER_GRADE
+	</select>
+
+	<update id="memberupdate" parameterType="memberDto">
+		UPDATE MEMBER
+		SET
+		MEMBER_GRADE = #{member_grade}
+		WHERE MEMBER_NO = #{member_no}
+	</update>
+
+	<select id="findid" parameterType="memberDto"
+		resultType="String">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE MEMBER_NAME =
+		#{member_name}
+		AND MEMBER_EMAIL = #{member_email}
+	</select>
+
+	<select id="findpassword" parameterType="memberDto"
+		resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID,
+		MEMBER_NAME, MEMBER_PASSWORD,
+		MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER,
+		MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+		AND
+		MEMBER_NAME = #{member_name}
+		AND MEMBER_EMAIL = #{member_email}
+	</select>
+
+	<update id="updatepassword" parameterType="memberDto">
+		UPDATE MEMBER
+		SET
+		MEMBER_PASSWORD = #{member_password}
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+
+	<select id="adminsearch" parameterType="String"
+		resultType="memberDto">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, MEMBER_PASSWORD,
+		MEMBER_GRADE,
+		MEMBER_AGE, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE,
+		MEMBER_SECESSION
+		FROM MEMBER
+		WHERE MEMBER_ID LIKE '%' || #{member_id} ||
+		'%'
+	</select>
+
+	<select id="menchartmember" resultType="memberDto">
+		select count(*) as
+		count,TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD') as regdate 
+		from member 
+		where member_gender = 'M'
+		group by TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD') 
+		order by TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD')
+	</select>
+	
+	<select id="womenchartmember" resultType="memberDto">
+		select count(*) as
+		count,TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD') as regdate 
+		from member 
+		where member_gender = 'F'
+		group by TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD') 
+		order by TO_CHAR(MEMBER_REGDATE,'YYYY-MM-DD')
+	</select>
+	<delete id="deleteByMemberNo">
+		DELETE FROM MEMBER WHERE MEMBER_NO = #{member_no}
+	</delete>
+	
+	
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="hotel">
+
+	<select id="hotellist" resultType="hotelDto">
+		SELECT HOTEL_NO,
+		MEMBER_NO,HOTEL_TYPE,HOTEL_TITLE,HOTEL_CONTENT,HOTEL_REGDATE,
+		HOTEL_PRICE,HOTEL_ADDR,HOTEL_IMAGE,HOTEL_CONVINENCE,HOTEL_MAXCOUNT
+		FROM HOTEL
+		ORDER BY HOTEL_NO DESC
+	</select>
+
+	<select id="hotellist_member" resultType="hotelDto">
+		SELECT HOTEL_NO,
+		MEMBER_NO,HOTEL_TYPE,HOTEL_TITLE,HOTEL_CONTENT,HOTEL_REGDATE,
+		HOTEL_PRICE,HOTEL_ADDR,HOTEL_IMAGE,HOTEL_CONVINENCE,HOTEL_MAXCOUNT
+		FROM HOTEL
+		WHERE MEMBER_NO = #{member_no}
+		ORDER BY HOTEL_NO DESC
+	</select>
+
+	<select id="hotelOne" parameterType="int" resultType="hotelDto">
+		SELECT
+		HOTEL_NO,
+		MEMBER_NO,HOTEL_TYPE,HOTEL_TITLE,HOTEL_CONTENT,HOTEL_REGDATE,
+		HOTEL_PRICE,HOTEL_ADDR,HOTEL_IMAGE,HOTEL_CONVINENCE,HOTEL_MAXCOUNT
+		FROM HOTEL
+		WHERE HOTEL_NO = #{hotel_no}
+	</select>
+
+	<insert id="hotelinsert" parameterType="hotelDto">
+		INSERT INTO HOTEL
+		VALUES(HOTEL_NO_SEQ.NEXTVAL,#{member_no},#{hotel_type},#{hotel_title},#{hotel_content},SYSDATE,
+		#{hotel_price},#{hotel_addr},#{hotel_image},#{hotel_convinence},#{hotel_maxcount})
+	</insert>
+
+	<delete id="hoteldelete" parameterType="int">
+		DELETE FROM HOTEL
+		WHERE
+		HOTEL_NO = #{hotel_no}
+	</delete>
+
+	<update id="hotelupdate" parameterType="hotelDto">
+		UPDATE HOTEL
+		SET
+		HOTEL_TYPE = #{hotel_type} ,HOTEL_TITLE =
+		#{hotel_title},HOTEL_CONTENT
+		= #{hotel_content},
+		HOTEL_PRICE = #{hotel_price},
+		HOTEL_ADDR =
+		#{hotel_addr},HOTEL_IMAGE = #{hotel_image},
+		HOTEL_CONVINENCE =
+		#{hotel_convinence},HOTEL_MAXCOUNT = #{hotel_maxcount}
+		WHERE HOTEL_NO =
+		#{hotel_no}
+	</update>
+
+	<select id="hotelsearchlist" parameterType="hotelDto"
+		resultType="hotelDto">
+		SELECT HOTEL_NO,
+		MEMBER_NO,HOTEL_TYPE,HOTEL_TITLE,HOTEL_CONTENT,HOTEL_REGDATE,
+		HOTEL_PRICE,HOTEL_ADDR,HOTEL_IMAGE,HOTEL_CONVINENCE,HOTEL_MAXCOUNT
+		FROM HOTEL
+		WHERE HOTEL_TYPE = #{hotel_type}
+		AND HOTEL_PRICE <![CDATA[<=]]>
+		#{hotel_maxprice}
+		AND HOTEL_PRICE <![CDATA[>=]]>
+		#{hotel_minprice}
+		ORDER BY HOTEL_NO DESC
+	</select>
+
+	<select id="hotelchart" resultType="hotelDto">
+		select count(*) as
+		count,TO_CHAR(HOTEL_REGDATE,'YYYY-MM-DD') as regdate
+		from HOTEL
+		group by TO_CHAR(HOTEL_REGDATE,'YYYY-MM-DD')
+		order by TO_CHAR(HOTEL_REGDATE,'YYYY-MM-DD')
+	</select>
+	
+	<delete id="deleteByMemberNo">
+		DELETE FROM HOTEL WHERE MEMBER_NO = #{member_no}
+	</delete>
+	
+	
+</mapper>

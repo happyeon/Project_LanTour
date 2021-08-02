@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+.finalproject_board {
+	width: 1000px;
+	margin: 0 auto;
+	min-height: 800px;
+}
+
+.board_main {
+	min-height: 500px;
+	padding-right: 70px;
+}
+
+.board_category, .board_date {
+	margin-left: 10px;
+	display: block;
+	height: 15px;
+}
+
+.board_category_input {
+	position: relative;
+	padding: 0px;
+	height: 15px;
+	font-size: 10px;
+	font-weight: bolder;
+	display: block;
+	border: none;
+	color: #4582ec;
+}
+
+.board_info_date {
+	position: relative;
+	padding: 0px;
+	height: 15px;
+	font-size: 10px;
+	font-weight: bolder;
+	display: block;
+	border: none;
+	color: #adadad;
+}
+
+.board_title {
+	display: block;
+}
+
+.board_title_input {
+	border: none;
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.board_file {
+	position: relative;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 0px;
+	margin-top: 10px;
+}
+
+.board_content {
+	min-height: 400px;
+}
+
+.board_button_div {
+	float: right;
+}
+
+#down {
+	color: blue;
+	cursor: pointer;
+	width: 270px;
+}
+
+#down:hover {
+	color: red;
+}
+
+#text {
+	pointer-events: none;
+}
+
+.replyListParent {
+	border-bottom: 1px solid rgba(0, 0, 0, .1);
+	width: 100%;
+	padding-right: 70px;
+	padding-bottom: 10px;
+}
+
+.replyListChild {
+	border-bottom: 1px solid rgba(0, 0, 0, .1);
+	width: 100%;
+	padding-right: 70px;
+	padding-bottom: 10px;
+	padding-top: 5px;
+}
+
+.replyListChild_child {
+	margin-left: 30px;
+}
+
+#replyWrite {
+	height: 30px;
+}
+
+#reply_nickname {
+	float: left;
+	width: 7%;
+	height: 30px;
+	text-align: center;
+}
+
+#reply_span {
+	display: inline-block;
+	text-align: center;
+	height: 30px;
+}
+
+#reply_regist {
+	height: 30px;
+}
+
+.comment {
+	width: 100%;
+	height: 40px;
+	padding-right: 70px;
+}
+
+.comment_btn {
+	float: right;
+}
+
+.comment_nicname {
+	float: left;
+	width: 65px;
+}
+
+.comment_content {
+	width: 85%;
+}
+
+.comment_watch {
+	min-height: 50px;
+}
+
+.reply_content {
+	resize: none;
+	width: 100%;
+}
+
+.board_comment_date {
+	position: relative;
+	padding: 0px;
+	height: 15px;
+	font-size: 10px;
+	font-weight: bolder;
+	display: inline-block;
+	border: none;
+	color: #adadad;
+	margin-right: 5px;
+}
+
+.commentupdate, .commentdelete, .r_replyUpload {
+	background-color: transparent;
+	border: 0px transparent solid;
+	padding: 0px;
+	margin-right: 5px;
+	height: 15px;
+	font-size: 10px;
+	font-weight: bolder;
+	display: inline-block;
+	border: none;
+	color: #adadad;
+}

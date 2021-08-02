@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.lan.tour.model.dto.MemberDto" alias ="memberDto"/>
+		<typeAlias type="com.lan.tour.model.dto.HotelDto" alias = "hotelDto"/>
+		<typeAlias type="com.lan.tour.model.dto.LantourDto" alias = "lantourDto"/>
+		<typeAlias type="com.lan.tour.model.dto.RoomDto" alias="roomDto"/>
+		<typeAlias type="com.lan.tour.model.dto.ReservationDto" alias="ReservationDto"/>
+		<typeAlias type="com.lan.tour.model.dto.CommentDto" alias="CommentDto"/>
+		<typeAlias type="com.lan.tour.model.dto.CommunityDto" alias="CommunityDto"/>
+
+		<typeAlias type="com.lan.tour.model.dto.NoticeDto" alias="noticeDto"/>
+		<typeAlias type="com.lan.tour.model.dto.ReviewDto" alias="ReviewDto"/>
+		<typeAlias type="com.lan.tour.model.dto.NoticePagingDto" alias="NoticePagingDto"/>
+		<typeAlias type="com.lan.tour.model.dto.LantourPagingDto" alias="LantourPagingDto"/>
+		<typeAlias type="com.lan.tour.model.dto.CalendarDto" alias="CalendarDto"/>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource = "/mybatis/member-mapper.xml"/>
+		<mapper resource = "/mybatis/hotel-mapper.xml"/>
+		<mapper resource = "/mybatis/lantour-mapper.xml"/>
+		<mapper resource = "/mybatis/room-mapper.xml"/>
+		<mapper resource = "/mybatis/reservation-mapper.xml"/>
+		<mapper resource = "/mybatis/comment-mapper.xml"/>
+		<mapper resource = "/mybatis/community-mapper.xml"/>
+		<mapper resource = "/mybatis/notice-mapper.xml"/>
+		<mapper resource = "/mybatis/review-mapper.xml"/>
+		<mapper resource = "/mybatis/calendar-mapper.xml"/>
+	</mappers>
+
+</configuration>

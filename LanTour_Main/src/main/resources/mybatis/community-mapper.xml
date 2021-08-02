@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="community">
+
+	<!-- community_no, member_no, ,community_title, community_content, community_regdate, 
+		communtiy_readcount, community_deflag -->
+	<select id="community_selectList" resultType="CommunityDto">
+		SELECT
+		c.COMMUNITY_NO, c.MEMBER_NO, c.COMMUNITY_TITLE, c.COMMUNITY_CONTENT,
+		c.COMMUNITY_REGDATE, c.COMMUNITY_READCOUNT, c.COMMUNITY_DELFLAG ,
+		m.MEMBER_NAME
+		FROM COMMUNITY c, MEMBER m
+		WHERE c.MEMBER_NO = m.MEMBER_NO
+		ORDER BY COMMUNITY_NO DESC
+	</select>
+
+	<select id="community_titleSearch" resultType="CommunityDto"
+		parameterType="String">
+		SELECT
+		c.COMMUNITY_NO, c.MEMBER_NO, c.COMMUNITY_TITLE,
+		c.COMMUNITY_CONTENT,
+		c.COMMUNITY_REGDATE, c.COMMUNITY_READCOUNT,
+		c.COMMUNITY_DELFLAG ,
+		m.MEMBER_NAME
+		FROM COMMUNITY c, MEMBER m
+		WHERE
+		c.MEMBER_NO = m.MEMBER_NO
+		AND c.COMMUNITY_TITLE LIKE '%' ||
+		#{community_title} || '%'
+		ORDER BY COMMUNITY_NO DESC
+	</select>
+
+	<select id="community_contentSearch" resultType="CommunityDto"
+		parameterType="String">
+		SELECT
+		c.COMMUNITY_NO, c.MEMBER_NO, c.COMMUNITY_TITLE,
+		c.COMMUNITY_CONTENT,
+		c.COMMUNITY_REGDATE, c.COMMUNITY_READCOUNT,
+		c.COMMUNITY_DELFLAG ,
+		m.MEMBER_NAME
+		FROM COMMUNITY c, MEMBER m
+		WHERE
+		c.MEMBER_NO = m.MEMBER_NO
+		AND c.COMMUNITY_CONTENT LIKE '%' ||
+		#{community_content} || '%'
+		ORDER BY COMMUNITY_NO DESC
+	</select>
+
+	<select id="community_nameSearch" resultType="CommunityDto"
+		parameterType="String">
+		SELECT
+		c.COMMUNITY_NO, c.MEMBER_NO, c.COMMUNITY_TITLE,
+		c.COMMUNITY_CONTENT,
+		c.COMMUNITY_REGDATE, c.COMMUNITY_READCOUNT,
+		c.COMMUNITY_DELFLAG ,
+		m.MEMBER_NAME
+		FROM COMMUNITY c, MEMBER m
+		WHERE
+		c.MEMBER_NO = m.MEMBER_NO
+		AND m.MEMBER_NAME LIKE '%' || #{member_name}
+		|| '%'
+		ORDER BY COMMUNITY_NO DESC
+	</select>
+
+	<select id="community_selectOne" parameterType="int"
+		resultType="CommunityDto">
+		SELECT c.COMMUNITY_NO, c.MEMBER_NO, c.COMMUNITY_TITLE,
+		c.COMMUNITY_CONTENT,
+		c.COMMUNITY_REGDATE, c.COMMUNITY_READCOUNT,
+		c.COMMUNITY_DELFLAG , m.MEMBER_NAME
+		FROM COMMUNITY c, MEMBER m
+		WHERE
+		COMMUNITY_NO = #{community_no}
+		AND c.MEMBER_NO = m.MEMBER_NO
+	</select>
+
+	<insert id="community_insert" parameterType="CommunityDto">
+		INSERT INTO
+		COMMUNITY
+		VALUES(COMMUNITY_NO_SEQ.NEXTVAL,#{member_no},#{community_title},#{community_content},SYSDATE,0,'N')
+	</insert>
+
+	<update id="community_delete" parameterType="int">
+		UPDATE COMMUNITY
+		SET
+		COMMUNITY_DELFLAG = 'Y'
+		WHERE COMMUNITY_NO = #{community_no}
+	</update>
+
+	<update id="community_update" parameterType="CommunityDto">
+		UPDATE COMMUNITY
+		SET
+		COMMUNITY_TITLE = #{community_title}, COMMUNITY_CONTENT =
+		#{community_content}
+		WHERE COMMUNITY_NO = #{community_no}
+	</update>
+
+	<update id="readcount_update" parameterType="int">
+		UPDATE COMMUNITY
+		SET
+		COMMUNITY_READCOUNT = COMMUNITY_READCOUNT + 1
+		WHERE
+		COMMUNITY_NO =
+		#{community_no}
+	</update>
+
+	<select id="boardlist" resultType="communityDto">
+		SELECT COMMUNITY_NO,
+		COMMUNITY_TITLE, COMMUNITY_REGDATE, COMMUNITY_DELFLAG
+		FROM COMMUNITY
+		ORDER BY COMMUNITY_NO
+	</select>
+
+	<update id="boardupdate" parameterType="communityDto">
+		UPDATE COMMUNITY
+		SET
+		COMMUNITY_CONTENT = #{community_content}
+		WHERE COMMUNITY_NO =
+		#{community_no}
+	</update>
+
+	<delete id="communityAlldelete" parameterType="int">
+		DELETE
+		FROM
+		COMMUNITY
+		WHERE COMMUNITY_NO = #{community_no}
+	</delete>
+
+	<update id="community_refaired" parameterType="int">
+		UPDATE COMMUNITY
+		SET COMMUNITY_DELFLAG = 'N'
+		WHERE COMMUNITY_NO = #{community_no}
+	</update>
+
+	<select id="communitychart" resultType="communityDto">
+		select count(*) as count,
+		TO_CHAR(COMMUNITY_REGDATE,'YYYY-MM-DD') as regdate from COMMUNITY
+		group by TO_CHAR(COMMUNITY_REGDATE,'YYYY-MM-DD') order by
+		TO_CHAR(COMMUNITY_REGDATE,'YYYY-MM-DD')
+	</select>
+	
+	<select id="mypost_selectList" resultType="CommunityDto">
+		SELECT	COMMUNITY_NO, COMMUNITY_TITLE, COMMUNITY_CONTENT,
+		COMMUNITY_REGDATE, COMMUNITY_READCOUNT, COMMUNITY_DELFLAG
+		FROM COMMUNITY
+		WHERE MEMBER_NO = #{member_no}	
+	</select>	
+	
+	<select id="selectlistmember" resultType="communityDto">
+		SELECT * FROM COMMUNITY WHERE MEMBER_NO = #{member_no}
+	</select>
+	
+</mapper>

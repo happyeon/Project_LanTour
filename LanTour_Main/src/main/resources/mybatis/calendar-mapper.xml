@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cal">
+
+	<select id="cal_selectList" parameterType="int" resultType="CalendarDto">
+		SELECT CAL_NO, MEMBER_NO, CAL_TITLE, CAL_CONTENT, CAL_STARTDATE, CAL_ENDDATE
+		FROM CALENDAR
+		WHERE MEMBER_NO = #{member_no}
+	</select>
+	
+	<select id="cal_selectOne" parameterType="int" resultType="CalendarDto">
+		SELECT CAL_NO, MEMBER_NO, CAL_TITLE, CAL_CONTENT, CAL_STARTDATE, CAL_ENDDATE
+		FROM CALENDAR
+		WHERE CAL_NO = #{cal_no}
+	</select>
+		
+	<insert id="cal_insert" parameterType="CalendarDto">
+		INSERT INTO CALENDAR
+		VALUES(CAL_NO_SEQ.NEXTVAL, #{member_no}, #{cal_title}, #{cal_content}, #{cal_startdate}, #{cal_enddate})
+	</insert>
+	
+	<update id="cal_update" parameterType="CalendarDto">
+		UPDATE CALENDAR
+		SET CAL_TITLE = #{cal_title}, CAL_CONTENT = #{cal_content}, CAL_STARTDATE = #{cal_startdate}, CAL_ENDDATE = #{cal_enddate}
+		WHERE CAL_NO = #{cal_no}
+	</update>
+	
+	<update id="cal_dargUpdate" parameterType="CalendarDto">
+		UPDATE CALENDAR
+		SET CAL_STARTDATE = #{cal_startdate}, CAL_ENDDATE = #{cal_enddate}
+		WHERE CAL_NO = #{cal_no}
+	</update>
+	
+	<delete id="cal_delete" parameterType="int">
+		DELETE FROM CALENDAR
+		WHERE CAL_NO = #{cal_no}
+	</delete>
+	<delete id="deleteByMemberNo">
+		DELETE FROM CALENDAR
+		WHERE MEMBER_NO = #{member_no}
+	</delete>
+</mapper>
