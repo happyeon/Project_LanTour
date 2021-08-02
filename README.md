@@ -12,6 +12,9 @@
 
 <br>
 
+> [발표자료](https://github.com/happyeon/Project_LanTour/blob/master/2%EC%A1%B0%20Final_LanTour.pdf)
+
+<br>
 
 > **개발 기간**
 
